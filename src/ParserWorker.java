@@ -49,12 +49,13 @@ public class ParserWorker implements Runnable {
                 writeDir(fileDir);
 
                 FileWriter writer = null;
+                FileWriter writer2 = null;
 
                 String fileName = arrOfTime[0] + ".json";
                 System.out.println(fileName);
 
                 try {
-                    writer = new FileWriter(fileDir + "\\" + fileName);
+                    writer = new FileWriter(fileDir + "\\" + fileName, true);
                     writer.write(jsonString);
                 } catch (IOException e) {
                     e.printStackTrace();
