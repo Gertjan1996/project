@@ -11,21 +11,32 @@ public class DataObject {
     public String CLDC;
     public String WNDDIR;
 
-    public DataObject(String TEMP, String DEWP, String STP, String SLP, String VISIB, String WDSP, String PRCP, String SNDP, String FRSHTT, String CLDC, String WNDDIR) {
-        this.TEMP = TEMP;
-        this.DEWP = DEWP;
-        this.STP = STP;
-        this.SLP = SLP;
-        this.VISIB = VISIB;
-        this.WDSP = WDSP;
-        this.PRCP =PRCP;
-        this.SNDP = SNDP;
-        this.FRSHTT = FRSHTT;
-        this.CLDC = CLDC;
-        this.WNDDIR = WNDDIR;
+    public DataObject(String[] arrOfStr) {
+        //System.out.println("arr0: " + arrOfStr[0] + " arr1: " + arrOfStr[1] + " arr2: " + arrOfStr[2] + " arr3: " + arrOfStr[3] + " arr4: " + arrOfStr[4]);
+        this.TEMP = arrOfStr[3];
+        this.DEWP = arrOfStr[4];
+        this.STP = arrOfStr[5];
+        this.SLP = arrOfStr[6];
+        this.VISIB = arrOfStr[7];
+        this.WDSP = arrOfStr[8];
+        this.PRCP = arrOfStr[9];
+        this.SNDP = arrOfStr[10];
+        this.FRSHTT = arrOfStr[11];
+        this.CLDC = arrOfStr[12];
+        this.WNDDIR = arrOfStr[13];
     }
 
-    //public void printDataObject {
-//
-  //  }
+    public void printDataObject() {
+        System.out.println(TEMP);
+        System.out.println(DEWP);
+        System.out.println(STP);
+        System.out.println(SLP);
+        System.out.println(VISIB);
+        System.out.println(WDSP);
+        System.out.println(PRCP);
+        System.out.println(SNDP);
+        System.out.println(FRSHTT);
+        System.out.println(CLDC);
+        System.out.println(WNDDIR);
+    }
 }

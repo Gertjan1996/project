@@ -1,4 +1,11 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ParserWorker implements Runnable {
     public void run() {
@@ -13,36 +20,53 @@ public class ParserWorker implements Runnable {
 
             while (!Main.dataQueue.listEmpty()) {
                 String data = Main.dataQueue.popFromList();
-                System.out.println("ParserWorker: " + data);
+                //System.out.println("ParserWorker: " + data);
 
                 String[] arrOfStr = data.split(";");
                 String[] arrOfDate = arrOfStr[1].split("-");
-                String[] arrOfDay = arrOfStr[2].split(":");
+                String[] arrOfTime = arrOfStr[2].split(":");
 
-                printArray(arrOfStr);
-                printArray(arrOfDate);
-                printArray(arrOfDay);
+                Map<String, DataObject> mapOfData = new HashMap<>();
 
-                DataObject dataObject = new DataObject(arrOfStr[3], arrOfStr[4], arrOfStr[5], arrOfStr[6], arrOfStr[7], arrOfStr[8], arrOfStr[9], arrOfStr[10], arrOfStr[11], arrOfStr[12], arrOfStr[13]);
-                //System.out.println("DataObject: " + dataObject);
+                //printArray(arrOfStr);
+                //printArray(arrOfDate);
+                //printArray(arrOfDay);
+
+                DataObject dataObject = new DataObject(arrOfStr);
+                //System.out.println("3: " + arrOfStr[3] + " 4: " + arrOfStr[4] + " 5: " + arrOfStr[5] + " 6: " + arrOfStr[6] + " 7: " + arrOfStr[7] + " 8: " + arrOfStr[8] + " 9: " + arrOfStr[9] + " 10: " + arrOfStr[10] + " 11: " + arrOfStr[11] + " 12: " + arrOfStr[12] + " 13: " + arrOfStr[13]);
+                //dataObject.printDataObject();
+
+                // key = time, value = dataObject
+                mapOfData.put(arrOfStr[2], dataObject);
+
+                // map to json
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String jsonString = gson.toJson(mapOfData);
 
                 File fileDir = new File("C:\\data-directory\\" + arrOfStr[0] + "\\" + arrOfDate[0] + "\\" + arrOfDate[1] + "\\" + arrOfDate[2]);
 
                 // creates (sub)directories of not existing yet
                 writeDir(fileDir);
 
-                //public String TEMP;
-                //public String DEWP;
-                //public String STP;
-                //public String SLP;
-                //public String VISIB;
-                //public String WDSP;
-                //public String PRCP;
-                //public String SNDP;
-                //public String FRSHTT;
-                //public String CLDC;
-                //public String WNDDIR;
+                FileWriter writer = null;
 
+                String fileName = arrOfTime[0] + ".json";
+                System.out.println(fileName);
+
+                try {
+                    writer = new FileWriter(fileDir + "\\" + fileName);
+                    writer.write(jsonString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (writer != null) {
+                        try {
+                            writer.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }
     }
