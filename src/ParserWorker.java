@@ -8,9 +8,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ParserWorker implements Runnable {
+    private int thread;
+
+    public ParserWorker(int thread) {
+        this.thread = thread;
+    }
+
     public void run() {
         while (true) {
             while (Main.dataQueue.listEmpty()) {
+                System.out.println("sleeping thread: " + thread);
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -20,7 +27,8 @@ public class ParserWorker implements Runnable {
 
             while (!Main.dataQueue.listEmpty()) {
                 String data = Main.dataQueue.popFromList();
-                //System.out.println("ParserWorker: " + data);
+                System.out.println("ParserWorker: " + data);
+                System.out.println("active thread: " + thread);
 
                 String[] arrOfStr = data.split(";");
                 String[] arrOfDate = arrOfStr[1].split("-");
@@ -49,10 +57,9 @@ public class ParserWorker implements Runnable {
                 writeDir(fileDir);
 
                 FileWriter writer = null;
-                FileWriter writer2 = null;
 
                 String fileName = arrOfTime[0] + ".json";
-                System.out.println(fileName);
+                //System.out.println(fileName);
 
                 try {
                     writer = new FileWriter(fileDir + "\\" + fileName, true);
@@ -75,9 +82,9 @@ public class ParserWorker implements Runnable {
     private void writeDir(File f) {
         try {
             if (f.mkdirs()) {
-                System.out.println("Directory Created");
+                //System.out.println("Directory Created");
             } else {
-                System.out.println("Directory Already Exists");
+                //System.out.println("Directory Already Exists");
             }
         } catch (Exception e) {
             e.printStackTrace();

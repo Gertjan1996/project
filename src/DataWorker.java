@@ -17,7 +17,7 @@ class DataWorker implements Runnable {
 
             while ((data = bin.readLine()) != null) {
                 Main.dataQueue.addToList(data);
-                // System.out.println("DataWorker: " + Main.dataQueue.getLastData());
+                //System.out.println("DataWorker: " + Main.dataQueue.getLastData());
             }
             connection.close();
             Main.Limiter.v();

@@ -20,7 +20,7 @@ class DataQueue {
     }
 
     synchronized String getLastData() {
-        return dataList.getLast();
+        return dataList.getFirst();
     }
 
 }
